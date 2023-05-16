@@ -15,6 +15,9 @@ app.use((req,res,next)=>{
     next();
 })
 
+// Routes
+app.use('/api/workout',workoutRouts)
+
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>{
     app.listen(port,()=>{
@@ -25,6 +28,5 @@ mongoose.connect(process.env.MONGO_URI)
     console.log(error);
 })
 
-// Routes
-app.use('/api/workout',workoutRouts)
+
 
