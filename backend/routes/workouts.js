@@ -14,10 +14,11 @@ routes.get('/:id',(req,res)=>{
 
 // post one workout
 routes.post('/',(req,res)=>{
-    console.log(req.body);
+    
     // const {name,description,type,duration,date} = req.body;
     // console.log({name,description,type,duration,date});
     res.json({msg:`post one workout`})
+    console.log(req.body);
 })
 
 // delete one workout
