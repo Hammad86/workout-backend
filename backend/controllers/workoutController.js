@@ -31,16 +31,19 @@ const getOneWorkout = async(req,res)=>{
 
 // post one workout
 const postWorkout = async(req,res)=>{
-    const {name,description,type,duration,date} = req.body;
+    
     try {
+        const {name,description,type,duration,date} = req.body;
         const workout = await Workout.create({
             name,description,type,duration,date
         })
         res.status(200).json(workout)
+        // res.json({msg:`post one workout`})
     } catch (error) {
+        console.log(error);
         res.status(400).json({error: error.message})
     }
-    res.json({msg:`post one workout`})
+    
 
 }
 
