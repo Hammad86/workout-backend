@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const bycrpt = require('bcrypt')
+const bycrpt = require('bcrypt');
+const validator = require('validator');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -16,7 +17,20 @@ const userSchema = new Schema({
 
 // static signup Method
 
-userSchema.statics.signup =async (email,password)=>{
+userSchema.statics.signup =async function(email,password){
+
+    // Validations
+    if(!email || !password){
+        throw Error('All fields must be required!')
+    }
+
+    if(!validator.isEmail(email)){
+        throw Error('Please enter valid email')
+    }
+
+    if(!validator.isStrongPassword(password)){
+        throw Error('please enter a strong password')
+    }
     const exist = await this.findOne({ email })
     if(exist){
         throw Error('Email is already exist')
@@ -26,6 +40,26 @@ userSchema.statics.signup =async (email,password)=>{
     const hash = await bycrpt.hash(password,salt)
 
     const user = await this.create({email,password:hash})
+
+    return user
+}
+
+// login user static method
+
+userSchema.statics.login = async function(email,password){
+    // Validations
+    if(!email || !password){
+        throw Error('All fields must be required!')
+    }
+    const user = await this.findOne({ email })
+    if(!user){
+        throw Error('Incoorect email')
+    }
+
+    const match = await bycrpt.compare(password,user.password);
+    if(!match){
+        throw Error('Incoorect Password')
+    }
 
     return user
 }
