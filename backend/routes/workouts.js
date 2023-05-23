@@ -21,5 +21,5 @@ routes.post('/',postWorkout)
 routes.delete('/:id',deleteWorkout)
 
 // update one worlout
-routes.patch ('/:id',updateWorkout)
+routes.put('/:id',updateWorkout)
 module.exports = routes
