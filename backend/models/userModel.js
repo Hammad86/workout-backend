@@ -12,15 +12,27 @@ const userSchema = new Schema({
     password:{
         type:String,
         required:true
+    },
+    firstName:{
+        type:String,
+        // required:true   
+    },
+    lastName:{
+        type:String,
+        // required:true
+    },
+    phone:{
+        type:String,
+        // required:true
     }
 })
 
 // static signup Method
 
-userSchema.statics.signup =async function(email,password){
+userSchema.statics.signup =async function(email,password,firstName,lastName,phone){
 
     // Validations
-    if(!email || !password){
+    if(!email || !password || !firstName || !lastName || !phone){
         throw Error('All fields must be required!')
     }
 
@@ -39,7 +51,7 @@ userSchema.statics.signup =async function(email,password){
     const salt = await bycrpt.genSalt(10)
     const hash = await bycrpt.hash(password,salt)
 
-    const user = await this.create({email,password:hash})
+    const user = await this.create({email,password:hash,firstName,lastName,phone})
 
     return user
 }
@@ -57,6 +69,7 @@ userSchema.statics.login = async function(email,password){
     }
 
     const match = await bycrpt.compare(password,user.password);
+    console.log(user);
     if(!match){
         throw Error('Incoorect Password')
     }

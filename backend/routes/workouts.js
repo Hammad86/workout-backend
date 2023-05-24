@@ -4,9 +4,13 @@ getAllWorkouts,
 getOneWorkout,
 deleteWorkout,
 updateWorkout
-} = require('../controllers/workoutController')
+} = require('../controllers/workoutController');
+
+const requireAuth = require('../middleware/requireAuth')
 const express = require('express');
 const routes = express.Router();
+
+routes.use(requireAuth)
 
 // Get all workout
 routes.get('/',getAllWorkouts)

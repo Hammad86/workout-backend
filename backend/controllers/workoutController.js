@@ -1,5 +1,9 @@
 const Workout = require('../models/workoutModel');
 const mongoose = require('mongoose');
+const requireAuth = require('./middleware/requireAuth');
+
+
+
 // Get all workout
 const getAllWorkouts = async(req,res)=>{
     try {
