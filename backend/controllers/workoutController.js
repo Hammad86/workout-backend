@@ -7,7 +7,8 @@ const requireAuth = require('./middleware/requireAuth');
 // Get all workout
 const getAllWorkouts = async(req,res)=>{
     try {
-        const workouts = await Workout.find({}).sort({createdAt: -1})
+        const user_id = req.user._id;
+        const workouts = await Workout.find({ user_id }).sort({createdAt: -1})
     res.status(200).json(workouts)
     } catch (error) {
         console.log(error.meassage);
@@ -58,9 +59,9 @@ const postWorkout = async (req,res)=>{
     }
 
     try {
-        
+        const user_id = req.user._id;
         const workout = await Workout.create({
-            name,description,type,duration,date
+            name,description,type,duration,date,user_id
         })
         res.status(200).json(workout)
         
